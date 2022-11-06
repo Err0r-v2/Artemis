@@ -6,8 +6,3 @@ requests
 bs4
 colorama
 packaging
-
-
-
-
-
