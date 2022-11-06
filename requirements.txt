@@ -1,0 +1,13 @@
+urllib3
+wget
+selenium
+webdriver_manager
+requests
+bs4
+colorama
+packaging
+
+
+
+
+
