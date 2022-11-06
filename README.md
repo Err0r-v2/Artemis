@@ -9,6 +9,7 @@
 ### ☕ Usage  
 - #### 💻 Downloading
      ```
+    >> cd Artemis/
     >> git clone https://github.com/Err0r-v2/Artemis.git
     >> pip install -r requirements.txt
     ```
