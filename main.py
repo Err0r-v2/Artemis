@@ -4,19 +4,50 @@ from functions import *
 
 
 # Fonction principale
-def main():
-    global film_link
-    global qualities
-
+def main(timeout=2):
     clear()
-    timeout = int(input('Veuillez entrer le timeout pratique pour les proxies : '))
+    print("""
+        ░█████╗░██████╗░████████╗███████╗███╗░░░███╗██╗░██████╗
+        ██╔══██╗██╔══██╗╚══██╔══╝██╔════╝████╗░████║██║██╔════╝
+        ███████║██████╔╝░░░██║░░░█████╗░░██╔████╔██║██║╚█████╗░
+        ██╔══██║██╔══██╗░░░██║░░░██╔══╝░░██║╚██╔╝██║██║░╚═══██╗
+        ██║░░██║██║░░██║░░░██║░░░███████╗██║░╚═╝░██║██║██████╔╝
+        ╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░╚══════╝╚═╝░░░░░╚═╝╚═╝╚═════╝░
+        """)
 
-    proxies = create_proxies(timeout)
+    animate(red("Made by "), 0.05)
+
+    time.sleep(0.15)
+    sys.stdout.write(':')
+    sys.stdout.flush()
+
+    animate(cyan(" Err0r#7640"), 0.05)
+
+    print('\nReading cache', end='')
+
+    animate("...", 0.3)
+    with open('.cache.txt', 'r') as cache_file:
+        cache = cache_file.read().splitlines()
+        cache_file.close()
+
+    try:
+
+        if time.time() - float(cache[0]) <= 300:
+            print(green(' Found!'))
+            proxies = cache[1:]
+        else:
+            print(red(' Expired!'))
+            proxies = create_proxies(timeout, '.cache.txt')
+
+    except IndexError:
+        proxies = create_proxies(timeout, '.cache.txt')
+
     # Setting some variables
     film_list = []
     # The list that will contain all the qualities' link orf the choosen film
     qualities = []
 
+    clear()
     # Getting the film's name and entering the parameters in the url
     search = input("Please enter the movie name : ")
     payload = {'search': search, 'p': 'films'}
@@ -47,6 +78,7 @@ def main():
 
     film_name1 = film_list[arg_film - 1]
 
+    film_link = str
     if arg_film > len(film_list) or arg_film < 1:
         print(red('Please choose a valid argument'))
         sys.exit()
@@ -119,7 +151,8 @@ def main():
 
         # Print erreur si délai de dl
         except KeyError:
-            print(red('\nBypass necessary.') + '\nStarting bypasser...')
+            print(red(' Bypass necessary.'))
+            print('\nStarting bypasser...', end=' ')
             try:
                 dl(bypass_1fichier(fichier_url, proxies), name)
             except Exception as e:

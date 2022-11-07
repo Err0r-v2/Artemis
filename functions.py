@@ -139,7 +139,14 @@ def create_proxies(timeout, cache_path: str):
     for thread in threads:
         thread.join()
 
-    print(f'Effectué en {truncate(time.time() - start, 3)} secondes. Nous avons {len(valid_proxies)} proxies prometteurs.')
+    print(
+        f'Done in {truncate(time.time() - start, 3)} seconds. {len(valid_proxies)} proxies found.')
+
+    with open(cache_path, 'w') as cache:
+        cache.write(f'{time.time()}\n')
+        for proxy in valid_proxies:
+            cache.write(f'{str(proxy)}\n')
+
     time.sleep(3)
     return valid_proxies
 
