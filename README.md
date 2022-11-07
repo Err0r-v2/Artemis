@@ -10,6 +10,7 @@
 - #### 💻 Downloading
      ```
     >> git clone https://github.com/Err0r-v2/Artemis.git
+    >> cd Artemis/
     >> pip install -r requirements.txt
     ```
 - #### 🖥️ Starting
