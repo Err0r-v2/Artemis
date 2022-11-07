@@ -73,8 +73,9 @@ def main():
     clear()
     a = 1
     for qualitie in qualities:
+        attrs = get_attrs(qualitie)
         print(
-            f'{a}. Qualité : {Fore.MAGENTA + get_attrs(qualitie)[0] + Style.RESET_ALL} \n| Langue : {Fore.LIGHTYELLOW_EX + get_attrs(qualitie)[1] + Style.RESET_ALL} \n| Taille du fichier : {Fore.GREEN + get_attrs(qualitie)[2] + Style.RESET_ALL} \n| Url : {Fore.CYAN + get_attrs(qualitie)[3] + Style.RESET_ALL}')
+            f'{a}. Qualité : {Fore.MAGENTA + attrs[0] + Style.RESET_ALL} \n| Langue : {Fore.LIGHTYELLOW_EX + attrs[1] + Style.RESET_ALL} \n| Taille du fichier : {Fore.GREEN + attrs[2] + Style.RESET_ALL} \n| Url : {Fore.CYAN + attrs[3] + Style.RESET_ALL}')
         a = a + 1
 
     arg_qualitie = int(input('Veuillez rentrer le nombre de la qualité choisie : '))
