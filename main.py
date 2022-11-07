@@ -152,7 +152,7 @@ def main(timeout=2):
         # Print erreur si délai de dl
         except KeyError:
             print(red(' Bypass necessary.'))
-            print('\nStarting bypasser...', end=' ')
+            print('Starting bypasser...', end=' ')
             try:
                 dl(bypass_1fichier(fichier_url, proxies), name)
             except Exception as e:

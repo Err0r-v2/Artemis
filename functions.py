@@ -1,20 +1,23 @@
-import wget
-import urllib.error
 import glob
+import math
+import os
+import platform
+import random
+import sys
+import threading
+import time
+import urllib.error
+
+import requests
+import wget
+from bs4 import BeautifulSoup
+from colorama import Fore, Style
 from selenium import webdriver
+from selenium.common import exceptions
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
-import random
-import time
-import requests
-from bs4 import BeautifulSoup
-import sys
-import os, platform
-import threading
-import math
-from colorama import Fore, Style
 
 
 def animate(words, sleep):
@@ -55,8 +58,8 @@ def clear():
 
 def truncate(number, digits) -> float:
     # Improve accuracy with floating point operations, to avoid truncate(16.4, 2) = 16.39 or truncate(-1.13, 2) = -1.12
-    nbDecimals = len(str(number).split('.')[1])
-    if nbDecimals <= digits:
+    nbdecimals = len(str(number).split('.')[1])
+    if nbdecimals <= digits:
         return number
     stepper = 10.0 ** digits
     return math.trunc(stepper * number) / stepper
@@ -66,7 +69,7 @@ def truncate(number, digits) -> float:
 # si la sécurité est pas ouf
 def bypass(url):
     os.environ['WDM_LOG_LEVEL'] = '0'
-    user_agent = f'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (HTML, like Gecko) Chrome/{random.randint(50, 99)}.0.3112.50 Safari/537.36'
+    user_agent = f'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (HTML, like Gecko) Chrome/{random.randint(50, 99)}.0.3112.50 Safari/537.36 '
 
     options = Options()
     options.add_argument(f'user-agent={user_agent}')
@@ -91,7 +94,7 @@ def bypass(url):
     try:
         return driver.find_element(by=By.PARTIAL_LINK_TEXT, value='https://1fichier.com').text
 
-    except Exception as e:
+    except exceptions:
         return input("Enter the url manually : ")
 
 
@@ -109,12 +112,12 @@ def create_proxies(timeout, cache_path: str):
 
     proxy_list = r.text.splitlines()
     valid_proxies = []
-    print(green('Effectué.'))
+    print(green('Done.'))
     print('Testing proxies with ipify.org and 1fichier.com...', end=' ')
 
-    def test_proxy(proxy, url, timeout, valid_proxies_list: list):
+    def test_proxy(prox, url, timeout, valid_proxies_list: list):
         proxies = {
-            'https': f'socks5h://{proxy}'
+            'https': f'socks5h://{prox}'
         }
 
         try:
@@ -123,7 +126,7 @@ def create_proxies(timeout, cache_path: str):
                 r = requests.get(url, proxies=proxies, timeout=timeout)
 
                 if r.status_code == 200:
-                    valid_proxies_list.append(proxy)
+                    valid_proxies_list.append(prox)
             except:
                 pass
 
