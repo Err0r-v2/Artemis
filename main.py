@@ -35,9 +35,11 @@ def main(timeout=2):
         if time.time() - float(cache[0]) <= 300:
             print(green(' Found!'))
             proxies = cache[1:]
+            time.sleep(1)
         else:
             print(red(' Expired!'))
             proxies = create_proxies(timeout, '.cache.txt')
+            time.sleep(1)
 
     except (IndexError, ValueError):
         print(red(' Not Found!'))

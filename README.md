@@ -14,7 +14,7 @@
     >> pip install -r requirements.txt
     ```
 - #### 🖥️ Starting
-      1 - run python3 main.py
+      >> python3 main.py
 
 ##  
 
@@ -23,6 +23,7 @@
 - Proxy support: socks 4/5
 - Simple Usage
 - Direct download
+- Supports caching
 
 ##   
 
