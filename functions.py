@@ -17,11 +17,41 @@ import math
 from colorama import Fore, Style
 
 
+def animate(words, sleep):
+    for char in words:
+        time.sleep(sleep)
+        sys.stdout.write(char)
+        sys.stdout.flush()
+
+    time.sleep(sleep)
+
+
+def red(string: str):
+    return Fore.RED + string + Style.RESET_ALL
+
+
+def green(string: str):
+    return Fore.GREEN + string + Style.RESET_ALL
+
+
+def cyan(string: str):
+    return Fore.CYAN + string + Style.RESET_ALL
+
+
+def magenta(string: str):
+    return Fore.MAGENTA + string + Style.RESET_ALL
+
+
+def blue(string: str):
+    return Fore.BLUE + string + Style.RESET_ALL
+
+
 def clear():
-   if platform.system() == 'Windows':
-      os.system('cls')
-   else:
-      os.system('clear')
+    if platform.system() == 'Windows':
+        os.system('cls')
+    else:
+        os.system('clear')
+
 
 def truncate(number, digits) -> float:
     # Improve accuracy with floating point operations, to avoid truncate(16.4, 2) = 16.39 or truncate(-1.13, 2) = -1.12
@@ -30,6 +60,7 @@ def truncate(number, digits) -> float:
         return number
     stepper = 10.0 ** digits
     return math.trunc(stepper * number) / stepper
+
 
 # Utilise Selenium pour résoudre le captcha de dl-protect.info (possible que ça ne fonctionne pas), bypass primaire
 # si la sécurité est pas ouf
@@ -159,8 +190,8 @@ def dl(url, name):
         latest_file = max(list_of_files, key=os.path.getctime)
         os.rename(latest_file, f'Films/{name}.{latest_file[-3:]}')
 
-    except urllib.error.HTTPError:
-        print("Lien expiré veuillez réessayer plus tard")
+    except urllib.error.HTTPError as e:
+        print(f"Lien expiré veuillez réessayer plus tard\n Erreur : {e}\nLien :{url}")
 
     except ConnectionAbortedError:
         print("Téléchargement avorté... Veuillez relancer le téléchargement")
@@ -192,4 +223,4 @@ def bypass_1fichier(url, proxies):
         except Exception as e:
             print(e)
 
-        print("Le bypass n'a pas pu être effectué, peut-être qu'augmenter le timeout résoudra le problème...")
+    print("Le bypass n'a pas pu être effectué, peut-être qu'augmenter le timeout résoudra le problème...")
