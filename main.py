@@ -39,7 +39,7 @@ def main(timeout=2):
             print(red(' Expired!'))
             proxies = create_proxies(timeout, '.cache.txt')
 
-    except IndexError:
+    except (IndexError, ValueError):
         proxies = create_proxies(timeout, '.cache.txt')
 
     # Setting some variables
