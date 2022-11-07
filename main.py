@@ -105,7 +105,7 @@ def main(timeout=2):
     for qualitie in qualities:
         attrs = get_attrs(qualitie)
         print(
-            f'{a}. Qualité : {Fore.MAGENTA + attrs[0] + Style.RESET_ALL} \n| Langue : {Fore.LIGHTYELLOW_EX + attrs[1] + Style.RESET_ALL} \n| Taille du fichier : {Fore.GREEN + attrs[2] + Style.RESET_ALL} \n| Url : {Fore.CYAN + attrs[3] + Style.RESET_ALL}')
+            f'{a}. Quality : {magenta(attrs[0])} \n| Language : {Fore.LIGHTYELLOW_EX + attrs[1] + Style.RESET_ALL} \n| File size : {green(attrs[2])} \n| Url : {cyan(attrs[3])}')
         a = a + 1
 
     arg_qualitie = int(input('Enter the selected qualitie : '))
