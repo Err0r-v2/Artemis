@@ -40,6 +40,7 @@ def main(timeout=2):
             proxies = create_proxies(timeout, '.cache.txt')
 
     except (IndexError, ValueError):
+        print(red(' Not Found!'))
         proxies = create_proxies(timeout, '.cache.txt')
 
     # Setting some variables
