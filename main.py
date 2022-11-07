@@ -1,6 +1,5 @@
 # coding=utf-8
 
-
 from functions import *
 
 
@@ -19,8 +18,7 @@ def main():
     qualities = []
 
     # Getting the film's name and entering the parameters in the url
-    clear()
-    search = input("Veuillez rentrer le nom du film : ")
+    search = input("Please enter the movie name : ")
     payload = {'search': search, 'p': 'films'}
     url = "https://www.zone-telechargement.onl/"
 
@@ -30,7 +28,7 @@ def main():
 
     # If not found then...
     if "Aucune fiches trouvées." in soup.prettify():
-        print(Fore.RED + 'Pas de film trouvé' + Style.RESET_ALL)
+        print(red('No movie found'))
         sys.exit()
 
     # Else print the film's list
@@ -45,12 +43,12 @@ def main():
         print(f'{a}. {film}')
         a += 1
 
-    arg_film = int(input('Veuillez rentrer le nombre du film choisi : '))
+    arg_film = int(input('Please enter the number of the movie : '))
 
     film_name1 = film_list[arg_film - 1]
 
     if arg_film > len(film_list) or arg_film < 1:
-        print('Veuillez choisir un bon argument')
+        print(red('Please choose a valid argument'))
         sys.exit()
     else:
         # Going to the film webpage
@@ -78,10 +76,10 @@ def main():
             f'{a}. Qualité : {Fore.MAGENTA + attrs[0] + Style.RESET_ALL} \n| Langue : {Fore.LIGHTYELLOW_EX + attrs[1] + Style.RESET_ALL} \n| Taille du fichier : {Fore.GREEN + attrs[2] + Style.RESET_ALL} \n| Url : {Fore.CYAN + attrs[3] + Style.RESET_ALL}')
         a = a + 1
 
-    arg_qualitie = int(input('Veuillez rentrer le nombre de la qualité choisie : '))
+    arg_qualitie = int(input('Enter the selected qualitie : '))
 
     if arg_qualitie > len(qualities) or arg_qualitie < 1:
-        print('Veuillez choisir un bon argument')
+        print(red('Please choose a valid argument'))
         sys.exit()
 
     else:
@@ -96,16 +94,16 @@ def main():
         }
 
         # Tries to bypass the url (BETA)
-        print('Résolution du captcha...', end=' ')
+        print('Captcha resolving...', end=' ')
         fichier_url = bypass(get_attrs(qualities[arg_qualitie - 1])[3])
-        print(Fore.GREEN+'Effectué.'+Style.RESET_ALL)
+        print(green('Done.'))
 
         # Check si le fichier est delete
         if BeautifulSoup(requests.get(fichier_url).text, 'html.parser').find(class_='bloc2'):
-            print(Fore.RED + 'Fichier supprimé' + Style.RESET_ALL)
+            print(red('File deleted'))
             sys.exit(0)
 
-        print('Obtention du lien de téléchargement...', end=' ')
+        print('Getting the download link...', end=' ')
         # Request POST
         r_form = requests.post(fichier_url, headers=headers_form, data=data_form)
         soup_form = BeautifulSoup(r_form.text, 'html.parser')
@@ -116,12 +114,12 @@ def main():
         try:
             # Trying to give the dl link (if no download in the last 2 hours)
             dl_url = button['href']
-            print('Effectué.')
+            print(green('Done.'))
             dl(dl_url, name)
 
         # Print erreur si délai de dl
-        except Exception as e:
-            print(Fore.RED + ' \nBypass du lien requis.' + Style.RESET_ALL + '\nMise en route du bypasser...')
+        except KeyError:
+            print(red('\nBypass necessary.') + '\nStarting bypasser...')
             try:
                 dl(bypass_1fichier(fichier_url, proxies), name)
             except Exception as e:

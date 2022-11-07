@@ -83,7 +83,7 @@ def bypass(url):
         captcha_button = driver.find_element(by=By.CLASS_NAME, value='g-recaptcha')
         driver.execute_script("arguments[0].click();", captcha_button)
     except Exception as e:
-        print("Le lien n'est plus fonctionel ", e)
+        print("Link not working", e)
         sys.exit(0)
 
     time.sleep(1)
@@ -92,11 +92,11 @@ def bypass(url):
         return driver.find_element(by=By.PARTIAL_LINK_TEXT, value='https://1fichier.com').text
 
     except Exception as e:
-        return input("Veuillez entrer l'url manuellement : ")
+        return input("Enter the url manually : ")
 
 
-def create_proxies(timeout):
-    print('Obtention des proxies...', end=' ')
+def create_proxies(timeout, cache_path: str):
+    print('Getting new proxies...', end=' ')
     start = time.time()
     params = {'request': 'displayproxies',
               'protocol': 'socks5',
@@ -109,8 +109,8 @@ def create_proxies(timeout):
 
     proxy_list = r.text.splitlines()
     valid_proxies = []
-    print('Effectué.')
-    print('Test des proxies avec ipify et 1fichier...')
+    print(green('Effectué.'))
+    print('Testing proxies with ipify.org and 1fichier.com...', end=' ')
 
     def test_proxy(proxy, url, timeout, valid_proxies_list: list):
         proxies = {
@@ -165,7 +165,7 @@ def get_attrs(film_url):
 
 
 def bar_progress(current, total, width=80):
-    progress_message = "Téléchargement : %d%% [%s / %s]" % (
+    progress_message = "Downloading : %d%% [%s / %s]" % (
         current / total * 100, convert_size(current), convert_size(total))
     # Don't use print() as it will print in new line every time.
     sys.stdout.write("\r" + progress_message)
@@ -197,8 +197,8 @@ def dl(url, name):
         print("Téléchargement avorté... Veuillez relancer le téléchargement")
 
     except KeyboardInterrupt:
-        print('\nArrêt du téléchargement...')
-        print('À bientôt!')
+        print('\nStopping download...')
+        print('Goodbye!')
 
 
 def bypass_1fichier(url, proxies):
@@ -217,10 +217,10 @@ def bypass_1fichier(url, proxies):
         try:
             r_form = requests.post(url, proxies=p, headers=headers_form, data=data_form)
             soup_form = BeautifulSoup(r_form.text, 'html.parser')
-            print(Fore.GREEN+ 'Bypass effectué !'+ Style.RESET_ALL)
+            print(Fore.GREEN + 'Bypass done !' + Style.RESET_ALL)
             return soup_form.find(class_="ok btn-general btn-orange")['href']
 
         except Exception as e:
-            print(e)
+            pass
 
-    print("Le bypass n'a pas pu être effectué, peut-être qu'augmenter le timeout résoudra le problème...")
+    print(red("The bypass did not worked..."))
