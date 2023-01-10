@@ -21,7 +21,7 @@ def main(timeout=2):
     sys.stdout.write(':')
     sys.stdout.flush()
 
-    animate(cyan(" Err0r#7640"), 0.05)
+    animate(cyan(" Err0r#0002"), 0.05)
 
     print('\nReading cache', end='')
 
@@ -130,7 +130,7 @@ def main(timeout=2):
 
         # Tries to bypass the url (BETA)
         print('Captcha resolving...', end=' ')
-        fichier_url = bypass(get_attrs(qualities[arg_qualitie - 1])[3])
+        fichier_url = bypass(qualities[arg_qualitie - 1])
         print(green('Done.'))
 
         # Check si le fichier est delete
