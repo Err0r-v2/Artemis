@@ -107,6 +107,7 @@ def main(timeout=2):
             qualities.append(f"{url}{link.get('href')}")
 
     clear()
+    print('Loading qualities...')
     a = 1
 
     table = Table(box=box.SQUARE)
@@ -122,6 +123,7 @@ def main(timeout=2):
         a += 1
 
     console = Console()
+    clear()
     console.print(table)
 
     arg_qualitie = int(input('Enter the selected qualitie : '))
