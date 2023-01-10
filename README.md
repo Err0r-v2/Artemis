@@ -1,4 +1,4 @@
-#  [PATCHED] Artemis 🏹
+#  [WIP] Artemis 🏹
 
 
 <a href="https://www.zone-telechargement.onl/">Zone-Téléchargement</a> scraper and downloader
@@ -34,7 +34,7 @@
 
 ### 📜 License & Warning
 - Make for education propose only
-- Under licensed MIT MIT License.
+- Under licensed MIT License.
 
 ##  
 

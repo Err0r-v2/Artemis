@@ -18,6 +18,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+import random
+import time
+import undetected_chromedriver as uc
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 
 def animate(words, sleep):
@@ -68,36 +73,30 @@ def truncate(number, digits) -> float:
 # Utilise Selenium pour résoudre le captcha de dl-protect.info (possible que ça ne fonctionne pas), bypass primaire
 # si la sécurité est pas ouf
 def bypass(url):
-    os.environ['WDM_LOG_LEVEL'] = '0'
-    user_agent = f'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (HTML, like Gecko) Chrome/{random.randint(50, 99)}.0.3112.50 Safari/537.36 '
 
-    options = Options()
-    options.add_argument(f'user-agent={user_agent}')
-    options.add_argument("disable-notifications")
-    options.add_experimental_option("useAutomationExtension", False)  # Adding Argument to Not Use Automation Extension
-    options.headless = True
+    a = uc.Chrome()
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-
-    driver.get(url)
-
-    time.sleep(random.randint(1, 2))
+    a.get('https://www.zone-telechargement.bond/?p=film&id=35920-bullet-train')
+    time.sleep(2)
     try:
-        captcha_button = driver.find_element(by=By.CLASS_NAME, value='g-recaptcha')
-        driver.execute_script("arguments[0].click();", captcha_button)
-    except Exception as e:
-        print("Link not working", e)
-        sys.exit(0)
+        for i in range(2):
+            a.find_elements(By.XPATH, "//a[@rel='external nofollow']")[0].click()
+            time.sleep(2)
 
-    time.sleep(1)
+    except NoSuchElementException:
+        print('Unable to locate')
+        time.sleep(0.5)
+    except IndexError:
+        print('IndexError')
 
-    try:
-        return driver.find_element(by=By.PARTIAL_LINK_TEXT, value='https://1fichier.com').text
+    for window in a.window_handles:
+        a.switch_to.window(window)
+        if a.current_url.startswith('https://dl-protect.net/'):
+            break
 
-    except exceptions:
-        return input("Enter the url manually : ")
-
-
+    time.sleep(2)
+    a.execute_script("arguments[0].click();", a.find_element(By.TAG_NAME, 'button'))
+    return a.find_element(By.XPATH, "//a[@rel='external nofollow']")
 def create_proxies(timeout, cache_path: str):
     print('Getting new proxies...', end=' ')
     start = time.time()
