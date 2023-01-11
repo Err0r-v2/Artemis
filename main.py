@@ -1,6 +1,9 @@
 # coding=utf-8
 
 from functions import *
+from rich.console import Console
+from rich.table import Table
+from rich import box
 
 
 # Fonction principale
@@ -104,12 +107,24 @@ def main(timeout=2):
             qualities.append(f"{url}{link.get('href')}")
 
     clear()
+    print('Loading qualities...')
     a = 1
+
+    table = Table(box=box.SQUARE)
+
+    table.add_column("Number", justify="center", style="cyan", no_wrap=True)
+    table.add_column("Quality", style="magenta", justify="left")
+    table.add_column("Language", justify="left", style="green")
+    table.add_column("File size", justify="center", style="green")
+
     for qualitie in qualities:
         attrs = get_attrs(qualitie)
-        print(
-            f'{a}. Quality : {magenta(attrs[0])} \n| Language : {Fore.LIGHTYELLOW_EX + attrs[1] + Style.RESET_ALL} \n| File size : {green(attrs[2])} \n| Url : {cyan(attrs[3])}')
-        a = a + 1
+        table.add_row(str(a), attrs[0], attrs[1], attrs[2])
+        a += 1
+
+    console = Console()
+    clear()
+    console.print(table)
 
     arg_qualitie = int(input('Enter the selected qualitie : '))
 
