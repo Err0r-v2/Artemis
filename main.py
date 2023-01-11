@@ -21,7 +21,7 @@ def main(timeout=2):
     sys.stdout.write(':')
     sys.stdout.flush()
 
-    animate(cyan(" Err0r#7640"), 0.05)
+    animate(cyan(" Err0r#0002"), 0.05)
 
     print('\nReading cache', end='')
 
