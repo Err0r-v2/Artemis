@@ -2,22 +2,18 @@ import glob
 import math
 import os
 import platform
-import random
 import sys
-import threading
 import time
+import wget
+import threading
 import urllib.error
 
 import requests
-import wget
 from bs4 import BeautifulSoup
 from colorama import Fore, Style
-from selenium import webdriver
-from selenium.common import exceptions
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.common.exceptions import NoSuchElementException
 
 
 def animate(words, sleep):
@@ -68,34 +64,31 @@ def truncate(number, digits) -> float:
 # Utilise Selenium pour résoudre le captcha de dl-protect.info (possible que ça ne fonctionne pas), bypass primaire
 # si la sécurité est pas ouf
 def bypass(url):
-    os.environ['WDM_LOG_LEVEL'] = '0'
-    user_agent = f'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (HTML, like Gecko) Chrome/{random.randint(50, 99)}.0.3112.50 Safari/537.36 '
+    a = uc.Chrome(version_main=107)
 
-    options = Options()
-    options.add_argument(f'user-agent={user_agent}')
-    options.add_argument("disable-notifications")
-    options.add_experimental_option("useAutomationExtension", False)  # Adding Argument to Not Use Automation Extension
-    options.headless = True
-
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-
-    driver.get(url)
-
-    time.sleep(random.randint(1, 2))
+    a.get(url)
+    time.sleep(2)
     try:
-        captcha_button = driver.find_element(by=By.CLASS_NAME, value='g-recaptcha')
-        driver.execute_script("arguments[0].click();", captcha_button)
-    except Exception as e:
-        print("Link not working", e)
-        sys.exit(0)
+        for i in range(2):
+            a.find_elements(By.XPATH, "//a[@rel='external nofollow']")[0].click()
+            time.sleep(2)
 
-    time.sleep(1)
+    except NoSuchElementException:
+        print('Unable to locate')
+        time.sleep(0.5)
+    except IndexError:
+        print('IndexError')
 
-    try:
-        return driver.find_element(by=By.PARTIAL_LINK_TEXT, value='https://1fichier.com').text
+    for window in a.window_handles:
+        a.switch_to.window(window)
+        if a.current_url.startswith('https://dl-protect.net/'):
+            break
 
-    except exceptions:
-        return input("Enter the url manually : ")
+    time.sleep(2)
+    a.execute_script("arguments[0].click();", a.find_element(By.TAG_NAME, 'button'))
+    link = a.find_element(By.XPATH, "//a[@rel='external nofollow']").text
+    a.close()
+    return link
 
 
 def create_proxies(timeout, cache_path: str):

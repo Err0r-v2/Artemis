@@ -7,3 +7,4 @@ bs4
 colorama
 packaging
 rich
+undetected_chromedriver

@@ -1,7 +1,7 @@
-# Artemis 🏹
+#  [WIP] Artemis Captcha bypassing branch 🏹
 
 
-<a href="https://www.zone-telechargement.onl/">Zone-Téléchargement</a> scraper and downloader
+<a href="https://www.zone-telechargement.bond/">Zone-Téléchargement</a> scraper and downloader ==> The bypass is not working at the moment
 
 ##  
 
@@ -28,13 +28,13 @@
 ##   
 
 ### 🧰 Support
-- Discord: Err0r#7640
+- Discord: Err0r#0002
 
 ##  
 
 ### 📜 License & Warning
 - Make for education propose only
-- Under licensed MIT MIT License.
+- Under licensed MIT License.
 
 ##  
 
