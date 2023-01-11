@@ -5,5 +5,4 @@ webdriver_manager
 requests
 bs4
 colorama
-packaging
 undetected_chromedriver
