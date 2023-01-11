@@ -54,7 +54,7 @@ def main(timeout=2):
     # Getting the film's name and entering the parameters in the url
     search = input("Please enter the movie name : ")
     payload = {'search': search, 'p': 'films'}
-    url = "https://www.zone-telechargement.onl/"
+    url = "https://www.zone-telechargement.bond/"
 
     # Executing url
     r = requests.get(url, params=payload)
@@ -130,7 +130,7 @@ def main(timeout=2):
 
         # Tries to bypass the url (BETA)
         print('Captcha resolving...', end=' ')
-        fichier_url = bypass(get_attrs(qualities[arg_qualitie - 1])[3])
+        fichier_url = bypass(qualities[arg_qualitie - 1])
         print(green('Done.'))
 
         # Check si le fichier est delete
@@ -154,7 +154,7 @@ def main(timeout=2):
 
         # Print erreur si délai de dl
         except KeyError:
-            print(red(' Bypass necessary.'))
+            print(red('Bypass necessary.'))
             print('Starting bypasser...', end=' ')
             try:
                 dl(bypass_1fichier(fichier_url, proxies), name)
