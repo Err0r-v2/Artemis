@@ -2,24 +2,15 @@ import glob
 import math
 import os
 import platform
-import random
 import sys
-import threading
 import time
+import wget
+import threading
 import urllib.error
 
 import requests
-import wget
 from bs4 import BeautifulSoup
 from colorama import Fore, Style
-from selenium import webdriver
-from selenium.common import exceptions
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
-import random
-import time
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
@@ -73,10 +64,9 @@ def truncate(number, digits) -> float:
 # Utilise Selenium pour résoudre le captcha de dl-protect.info (possible que ça ne fonctionne pas), bypass primaire
 # si la sécurité est pas ouf
 def bypass(url):
+    a = uc.Chrome(version_main=107)
 
-    a = uc.Chrome()
-
-    a.get('https://www.zone-telechargement.bond/?p=film&id=35920-bullet-train')
+    a.get(url)
     time.sleep(2)
     try:
         for i in range(2):
@@ -96,7 +86,9 @@ def bypass(url):
 
     time.sleep(2)
     a.execute_script("arguments[0].click();", a.find_element(By.TAG_NAME, 'button'))
-    return a.find_element(By.XPATH, "//a[@rel='external nofollow']")
+    return a.find_element(By.XPATH, "//a[@rel='external nofollow']").text
+
+
 def create_proxies(timeout, cache_path: str):
     print('Getting new proxies...', end=' ')
     start = time.time()
