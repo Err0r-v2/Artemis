@@ -86,7 +86,9 @@ def bypass(url):
 
     time.sleep(2)
     a.execute_script("arguments[0].click();", a.find_element(By.TAG_NAME, 'button'))
-    return a.find_element(By.XPATH, "//a[@rel='external nofollow']").text
+    link = a.find_element(By.XPATH, "//a[@rel='external nofollow']").text
+    a.close()
+    return link
 
 
 def create_proxies(timeout, cache_path: str):
