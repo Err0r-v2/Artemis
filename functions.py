@@ -14,6 +14,7 @@ from colorama import Fore, Style
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 def animate(words, sleep):
@@ -64,7 +65,7 @@ def truncate(number, digits) -> float:
 # Utilise Selenium pour résoudre le captcha de dl-protect.info (possible que ça ne fonctionne pas), bypass primaire
 # si la sécurité est pas ouf
 def bypass(url):
-    a = uc.Chrome(version_main=107)
+    a = uc.Chrome()
 
     a.get(url)
     time.sleep(2)
@@ -85,8 +86,19 @@ def bypass(url):
             break
 
     time.sleep(2)
-    a.execute_script("arguments[0].click();", a.find_element(By.TAG_NAME, 'button'))
-    link = a.find_element(By.XPATH, "//a[@rel='external nofollow']").text
+    try:
+        a.execute_script("arguments[0].click();", a.find_element(By.TAG_NAME, 'button'))
+        link = a.find_element(By.XPATH, "//a[@rel='external nofollow']").text
+    except:
+        actions = ActionChains(a)
+        actions.move_to_element(a.find_element(By.CLASS_NAME, "cf-turnstile")).click().perform()
+        time.sleep(2)
+        actions.move_to_element(a.find_element(By.CLASS_NAME, "cf-turnstile")).click().perform()
+        time.sleep(3)
+        a.execute_script("arguments[0].click();", a.find_element(By.TAG_NAME, 'button'))
+        time.sleep(2)
+        link = a.find_element(By.XPATH, "//a[@rel='external nofollow']").text
+
     a.close()
     return link
 
