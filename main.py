@@ -57,7 +57,7 @@ def main(timeout=2):
     # Getting the film's name and entering the parameters in the url
     search = input("Please enter the movie name : ")
     payload = {'search': search, 'p': 'films'}
-    url = "https://www.zone-telechargement.bond/"
+    url = "https://www.zone-telechargement.tech/"
 
     # Executing url
     r = requests.get(url, params=payload)
